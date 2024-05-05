@@ -15302,7 +15302,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Provide a brief description of your source material, including its provenance and content. Tell us where you found it and what kind of content it contains.</p>
-<p>The source material is a collection of some of my favorite musicians' albums. It consists of 953 songs from 89 albums from 18 artists. The data is from both the Spotify API and lyricsgenius API. I used the Spotify API to get all of the artist, album, and song metadata, and used this information to query the lyricsgenius API to get the lyrics. It involved heavy cleaning, as the code to get the lyrics was automated as initially the full song list consisted of over 1000 songs. There were some plays, song lists, and many other interesting things that the API returned.</p>
+<p>The source material is a collection of some of my favorite musicians' albums. It consists of 953 songs from 89 albums from 18 artists. The data is from both the Spotify API and lyricsgenius API. I used the Spotify API to get all of the artist, album, and song metadata, and used this information to query the lyricsgenius API to get the lyrics. It involved heavy cleaning, as the code to get the lyrics was automated as initially the full song list consisted of over 1000 songs. There were some play scripts, song lists, and many other interesting things that the API returned, so I manually removed these songs. Additionally, any instumental song is left off the tracklist. I did my best to keep albums in tact otherwise.</p>
 
 </div>
 </div>
@@ -15334,7 +15334,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="Source-Document-Structure-(1)">Source Document Structure (1)<a class="anchor-link" href="#Source-Document-Structure-(1)">&#182;</a></h2><p>Provide a brief description of the internal structure of each document. That, describe the typical elements found in document and their relation to each other. For example, a corpus of letters might be described as having a date, an addressee, a salutation, a set of content paragraphs, and closing. If they are various structures, state that.</p>
-<p>Each document is an album, with lyrics for each song, in the order of the tracklist. If a song is instrumental it was skipped. For the most part the genius API returns lyrics following some structural information such as [VERSE 1]...[PRE-CHORUS 1]...[CHORUS 1], though this is not consistent. Overall for this project, bags were either ALBUM or SONG</p>
+<p>Each document is an album, with lyrics for each song, in the order of the tracklist. If a song is instrumental it was skipped. For the most part the genius API returns lyrics following some structural information such as [VERSE 1]...[PRE-CHORUS 1]...[CHORUS 1], though this is not consistent (there is an occasional song that is one big block of text, though most of these still have song line in tact, so we just lose stanza information in this case). In this way, I sought to build an OHCO of album, song, stanza (being something like a song section, e.g., verse, chorus), line, and token. Overall for this project, bags were either ALBUM or SONG</p>
 
 </div>
 </div>
@@ -15419,6 +15419,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <p>['him', 'bad', 'true', 'own', 'living', 'fire', 'first', 'found', 'feet',
        'someone', 'ask', 'kind', 'play', 'took', 'everyone', 'myself', 'seen',
        'save', 'once', 'sky']</p>
+<p>This list was generated using <code>album_dfidf</code>. There are a few terms with the same dfidf so this list is not the same every time due to pandas ordering.</p>
 
 </div>
 </div>
@@ -15517,7 +15518,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <li>GitHub URL for notebook used to create: <a href="https://github.com/rlipps/Exploratory_Text_Analytics_Final/blob/main/notebooks/Build_Tables.ipynb">https://github.com/rlipps/Exploratory_Text_Analytics_Final/blob/main/notebooks/Build_Tables.ipynb</a></li>
 <li>Delimitter: |</li>
 <li>Number of features (i.e. significant words): 2000</li>
-<li>Principle of significant word selection: I used only singular and plural nouns and removed stopwords. The inclusion of stopwords is that there are many stopwords that were getting marked as significant because it appears that they're used as ad-libs and vocalizations in songs, which was adding a lot of noise. I used only nouns as using multiple parts of speech was very noisy and not very interprable.</li>
+<li>Principle of significant word selection: I used only singular and plural nouns and removed stopwords. The exclusion of stopwords is because there are many stopwords that were getting marked as significant because it appears that they're used as ad-libs and vocalizations in songs, which was adding a lot of noise. I used only nouns as using multiple parts of speech was very noisy and not very interprable.</li>
 </ul>
 
 </div>
@@ -15602,7 +15603,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <p><img src="images/pca1.png" alt="" /></p>
 <p><img src="images/loadings1.png" alt="" /></p>
 <p>Briefly describe the nature of the polarity you see in the first component:</p>
-<p>The polarity in the first component looks like teenage angst on the negative axis and more mature concepts on the positive axis</p>
+<p>The polarity in the first component looks like angst on the negative axis (pills, boys, pow, raindrops, depression) and more mature and universal concepts on the positive axis (mystery, lie, fun, age)</p>
 
 </div>
 </div>
@@ -15620,7 +15621,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <p><img src="images/pca2.png" alt="" /></p>
 <p><img src="images/loadings2.png" alt="" /></p>
 <p>Briefly describe the nature of the polarity you see in the second component:</p>
-<p>The polarity in the second component seems to related to general feelings and teenage angst again on the positive axis</p>
+<p>The polarity in the second component is very similar to the first. it seems to related to general feelings and angst on the positive axis (boys, girls, pills, mystery, lie, sea, moment) and mature concepts on the negative axis (someones, denial, work, round, hope, matter, romance)</p>
 
 </div>
 </div>
@@ -15650,6 +15651,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </ul>
 </li>
 </ul>
+<p>I used SONG as the bag for LDA in this document, though I explored ALBUM as well</p>
 
 </div>
 </div>
@@ -15699,7 +15701,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <p>Provide a brief interpretation of what you see.</p>
 <p><img src="images/lda1.png" alt="" /></p>
 <ul>
-<li>A few artists are not max assigned to a topic.</li>
+<li>A few artists are not max assigned to a topic, which is possibly because they don't have a voice and style as focused as the ones that do get the max topics, though I'm unsure of the probability distribution across topics.</li>
 <li>HOLYCHILD and Caroline Polachek are separated along PC1, which is interesting given they're relatively similar in genre.</li>
 <li>Using hover info, max artist assignment and max album assignment don't always line up for topics<ul>
 <li>Topics 1 and 12 have agreement between Big Thief and Big Thief albums, and in my opinion those two albums are definitely their most focused.</li>
@@ -15741,6 +15743,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <li>GitHub URL for notebook used to create: <a href="https://github.com/rlipps/Exploratory_Text_Analytics_Final/blob/main/notebooks/Sentiment_Analysis.ipynb">https://github.com/rlipps/Exploratory_Text_Analytics_Final/blob/main/notebooks/Sentiment_Analysis.ipynb</a></li>
 <li>Delimitter: |</li>
 </ul>
+<p>Using ALBUM as bag</p>
 
 </div>
 </div>
@@ -15774,6 +15777,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <p>If you don't have a metric metadata features, plot sentiment over a feature of your choice.</p>
 <p>You may use a bar chart or a line graph.</p>
 <p><img src="images/sentiment1.png" alt="" /></p>
+<p>2001 has a very sad, very very short album from Broken Social Scene that causes this big dip</p>
 
 </div>
 </div>
@@ -15808,6 +15812,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <h2 id="Word2vec-tSNE-Plot-(4)">Word2vec tSNE Plot (4)<a class="anchor-link" href="#Word2vec-tSNE-Plot-(4)">&#182;</a></h2><p>Plot word embedding featues in two-dimensions using t-SNE.</p>
 <p>Describe a cluster in the plot that captures your attention.</p>
 <p><img src="images/tsne.png" alt="" /></p>
+<p><img src="images/tsne2.png" alt="" /></p>
 <p>Zooming in on the bottom there is a lot of emotion and relationship related words, such as: hopeless, devotion, understand, believed, trust, needed, loving, regret</p>
 
 </div>
@@ -15845,7 +15850,15 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="Riff-1-(5)">Riff 1 (5)<a class="anchor-link" href="#Riff-1-(5)">&#182;</a></h2><p><img src="images/riff1.png" alt="" /></p>
-<p>Generally my work indicated that I listen to a lot of sad and emotional music. I was looking to see who is the saddest artist with this. My guess is that it would be the National or Radiohead. I was surprised to see that Yeah Yeah Yeahs was as sad as they were because their music is generally upbeat.</p>
+<p>Generally my work indicated that I listen to a lot of sad and emotional music. I was looking to see the overall distribution of sentiments by artist with this and compare it to my ideas of these artist's sentiments.</p>
+<ul>
+<li>I was surprised to see that Yeah Yeah Yeahs have such high values of anger and sadness</li>
+<li>I generally think of Big Thief as one of the more emotional bands that I like, so it interesting that they appear more muted in relief to other artists.</li>
+<li>I am unsurprised with Radiohead's emotion distribution - it seems pretty spot on</li>
+<li>Broken Social Scene is off the charts, but I think this is because they have a few very short, very sad and angry songs that are skewing their results</li>
+<li>Pure Bathing Culture is for sure one of the most if not the most joyful band on here, so I'm not surprised that they are the only band with positive sentiment</li>
+<li>Though I'm surprised at the magnitude of some of these, overall the distributions match my understanding of these artists!</li>
+</ul>
 
 </div>
 </div>
@@ -15858,6 +15871,8 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="Riff-2-(5)">Riff 2 (5)<a class="anchor-link" href="#Riff-2-(5)">&#182;</a></h2><p><img src="images/riff2.png" alt="" /></p>
+<p><img src="images/riff22.png" alt="" /></p>
+<p><img src="images/riff23.png" alt="" /></p>
 <p>For this riff I was looking to see if song sentiment was related to danceability. One might expect that happier songs are more danceable, however there doesn't appear to be a correlation. For note, this is Spotify's definition of danceability: Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable.</p>
 
 </div>
@@ -15873,7 +15888,10 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <h2 id="Riff-3-(5)">Riff 3 (5)<a class="anchor-link" href="#Riff-3-(5)">&#182;</a></h2><p><img src="images/riff3.png" alt="" /></p>
 <p><img src="images/riff32.png" alt="" /></p>
 <p><img src="images/riff33.png" alt="" /></p>
-<p>Generally, albums have narrative arcs, and I was interested to see if there was any trend in sentiment by song across album. Since album narratives told over songs generally discretized into songs rather than having arcs over chapters, I looked at this by graphing sentiment by track number grouped by album for a few artists that fleshed out catalogs. It looks like albums generally bounce around more that I thought - I was expecting more distinct shapes.</p>
+<p>Generally, albums have narrative arcs, and I was interested to see if there was any trend in sentiment by song across album. Since album narratives told over songs generally discretized into songs rather than having arcs over chapters, I looked at this by graphing sentiment by track number grouped by album for a few artists that fleshed out catalogs. It looks like albums generally bounce around more that I thought - I was expecting more distinct shapes. It is interesting to note that these artists generally don't stay in one overall sentiment level too long, and instead mix it up.</p>
+<ul>
+<li>St. Vincent has an interesting trend: Actor and Strange Mercy are her 2nd and 3rd records and the song sentiment is almost reversed across the albums!</li>
+</ul>
 
 </div>
 </div>
@@ -15888,7 +15906,8 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <h1 id="Interpretation-(4)">Interpretation (4)<a class="anchor-link" href="#Interpretation-(4)">&#182;</a></h1><p>Describe something interesting about your corpus that you discovered during the process of completing this assignment.</p>
 <p>At a minumum, use 250 words, but you may use more. You may also add images if you'd like.</p>
 <p>I learned a lot over the course of this project. Especially building a corpus by hand took a lot of effort, attention, and cleaning, which really makes me appreciate the people that work to build and clean text datasets for popular use.</p>
-<p>One of the biggest realizations was that it was very difficult to find meaningful insights, as it seems as though a lot of these artists write about the same things. This makes sense as they’re all my favorite bands and I suppose I have a “type”, but I was expecting a little more differentiation. This highlights that even though lyrics can carry a lot of emotion, the instrumentation and delivery of the lyrics carry a significant amount of meaning. This seems trivial, but I feel as though the lack of differentiation in the lyrics analysis highlights this; each of my artists write about very similar things and use a similar vocabulary, however, their styles and musical artistic choices can be relatively disparate. With this in mind I will be doing more critical lyric-listening to see if indeed all of my favorite artists are giving more or less the same messages. Furthermore, it has inspired me to expand this project to other genres and seeing if this trend carries or if I really just like one kind of music.</p>
+<p>One of the biggest finds was that it was very difficult to find meaningful insights, as it seems a lot of these artists write about the same things. This makes sense as they’re all my favorite bands and I suppose I have a “type”, but I was expecting a little more differentiation.</p>
+<p>This highlights that even though lyrics can carry a lot of emotion, the instrumentation and delivery of the lyrics carry a significant amount of meaning. This seems trivial, but I feel as though the lack of differentiation in the lyrics analysis highlights this; each of my artists write about similar things and use a similar vocabulary, however, their styles and musical artistic choices can be relatively disparate. This indicates that the primary differentiation across these artists is indeed in the music, not the lyrics. With this in mind I will be doing more critical lyric-listening to see if indeed all of my favorite artists are giving more or less the same messages. Furthermore, it has inspired me to expand this project to other genres and seeing if this trend carries or if I really just like one kind of lyrical music.</p>
 <p>As I mentioned in some of the notes, I also found that using lyrics for this project is particularly difficult. Most songs are very short when you look at the lyrics written down, and it was a lot of work to curate a reasonably sized corpus. I ran into some issues where a few songs have very few lyrics, and they were showing up in some topic modeling. For instance, LCD Soundsystem has a song called “Yeah” and…you guessed it…the only lyric is “Yeah” a bunch of times. This also highlights the different use of language in songs. A lot of stopwords can be used as ad-libs and vocalizations, and there are some people that rely heavily on this. It is an interesting use-case to include these to see who is performing a lot of melisma, but it was frustrating to deal with in getting a good signal to noise ratio for the deeper insights for this work.</p>
 
 </div>
